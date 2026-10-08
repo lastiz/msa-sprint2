@@ -1,0 +1,7 @@
+@startuml Hotelio
+!include <C4/C4_Context>
+title Hotelio — архитектура до миграции сервиса бронирования
+Person(customer, "Пользователь", "Ищет отели и бронирует жильё")
+System(hotelio, "Hotelio (Монолит)", "Платформа поиска и бронирования жилья")
+Rel(customer, hotelio, "Поиск, создание и просмотр бронирований", "RestAPI / HTTPS")
+@enduml

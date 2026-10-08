@@ -1,0 +1,15 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: booking-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.service.targetPort }}
+{{- end }}

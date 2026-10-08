@@ -1,0 +1,22 @@
+[project]
+name = "booking-service"
+version = "0.1.0"
+description = "Hotelio async gRPC booking service"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "betterproto==2.0.0b7",
+    "grpclib>=0.4.7,<0.5",
+    "dishka>=1.10.1",
+    "faststream[kafka]>=0.7.7",
+    "httpx>=0.28,<1",
+    "pydantic>=2.11,<3",
+    "pydantic-settings>=2.7,<3",
+    "sqlalchemy[asyncio]>=2.0,<3",
+    "asyncpg>=0.32.0",
+]
+
+[dependency-groups]
+dev = [
+    "betterproto[compiler]==2.0.0b7",
+    "grpcio-tools>=1.70,<2",
+]

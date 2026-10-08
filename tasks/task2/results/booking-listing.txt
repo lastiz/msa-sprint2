@@ -1,0 +1,43 @@
+### Booking service листинг через gRPC
+{
+  "bookings": [
+    {
+      "id": "1",
+      "userId": "t2-reg-list-user",
+      "hotelId": "t2-reg-hotel-1",
+      "promoCode": "T2REGCODE1",
+      "discountPercent": 10,
+      "price": 90,
+      "createdAt": "2026-10-06T21:44:57.559830+00:00"
+    },
+    {
+      "id": "2",
+      "userId": "t2-reg-list-user",
+      "hotelId": "t2-reg-hotel-1",
+      "price": 100,
+      "createdAt": "2026-10-06T21:44:57.559830+00:00"
+    }
+  ]
+}
+
+### Monolith listing через HTTP
+[
+  {
+    "id": 1,
+    "userId": "t2-reg-list-user",
+    "hotelId": "t2-reg-hotel-1",
+    "promoCode": "T2REGCODE1",
+    "discountPercent": 10,
+    "price": 90,
+    "createdAt": "2026-10-06T21:44:57.559830Z"
+  },
+  {
+    "id": 2,
+    "userId": "t2-reg-list-user",
+    "hotelId": "t2-reg-hotel-1",
+    "promoCode": "",
+    "discountPercent": 0,
+    "price": 100,
+    "createdAt": "2026-10-06T21:44:57.559830Z"
+  }
+]

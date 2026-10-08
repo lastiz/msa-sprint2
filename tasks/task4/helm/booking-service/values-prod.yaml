@@ -1,0 +1,42 @@
+replicaCount: 3
+
+image:
+  name: booking-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+env:
+  - name: APP_ENV
+    value: production
+
+enableFeatureX: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 250m
+    memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /ping
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /ping
+    port: http
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 5

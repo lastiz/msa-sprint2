@@ -1,0 +1,41 @@
+version: v2
+replicaCount: 1
+
+image:
+  name: booking-service
+  tag: task5
+  pullPolicy: Never
+
+service:
+  enabled: false
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+env: []
+enableFeatureX: true
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 16Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi
+
+livenessProbe:
+  httpGet:
+    path: /ping
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /ping
+    port: http
+  periodSeconds: 5
+  timeoutSeconds: 2
+  failureThreshold: 5

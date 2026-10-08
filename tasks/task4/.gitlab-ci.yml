@@ -2,22 +2,47 @@ stages:
   - build
   - test
   - deploy
+  - tag
 
 variables:
-  IMAGE_TAG: latest
   IMAGE_NAME: booking-service
+  IMAGE_TAG: latest
+  CONTAINER_NAME_TEST: booking-service-test
 
 build:
   stage: build
   script:
-
+    - echo "Building image..."
+    - docker build -t ${IMAGE_NAME}:${IMAGE_TAG} booking-service
+    - echo "Image built successfully"
 
 test:
   stage: test
   script:
-
+    - echo "Testing container..."
+    - docker run -d --name "${CONTAINER_NAME_TEST}" -p 8080:8080 -e ENABLE_FEATURE_X=true ${IMAGE_NAME}:${IMAGE_TAG}
+    - sleep 3
+    - test "$(curl -fsS http://localhost:8080/ping)" = "pong"
+    - echo "Health check passed"
+    - test "$(curl -fsS http://localhost:8080/feature)" = "Feature X is enabled!"
+    - echo "Feature X test passed"
+    - docker stop ${CONTAINER_NAME_TEST} || true
+    - echo "Tests completed"
+  after_script:
+    - docker rm -f ${CONTAINER_NAME_TEST} || true
 
 deploy:
   stage: deploy
   script:
- 
+    - echo "Deploying service in Kubernetes..."
+    - minikube image load "${IMAGE_NAME}:${IMAGE_TAG}"
+    - helm upgrade --install booking-service ./helm/booking-service  --values ./helm/booking-service/values-staging.yaml --set image.name="${IMAGE_NAME}" --set image.tag="${IMAGE_TAG}" --wait
+    - echo "Deployment completed successfully"
+
+tag:
+  stage: tag
+  script:
+    - echo "Creating GIT tag..."
+    - TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+    - git tag release-${TIMESTAMP}
+    - echo "Tag created - release-${TIMESTAMP}"

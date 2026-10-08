@@ -5,6 +5,6 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 
-COPY . .
+COPY index.js booking.proto ./
 
 CMD ["node", "index.js"]

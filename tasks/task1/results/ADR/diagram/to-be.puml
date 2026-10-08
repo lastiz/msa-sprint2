@@ -1,0 +1,22 @@
+@startuml Hotelio
+!include <C4/C4_Container>
+title Hotelio — промежуточная архитектура с выделенным сервисом бронирования
+Person(client, "Пользователь", "Ищет отели и бронирует жильё")
+System_Boundary(platform, "Hotelio") {
+  Container(monolith, "Монолит / REST фасад", "Java / Spring Boot", "Пользователи, отели, промокоды, отзывы")
+  Container(booking, "Сервис бронирования", "Java / Spring Boot / gRPC", "Проверки, расчёт цены, создание и чтение бронирований, публикация outbox")
+  ContainerDb(legacyDb, "БД монолита", "PostgreSQL", "Оставшиеся домены: пользователи, отели, промокоды, отзывы")
+  ContainerDb(bookingDb, "БД сервиса бронирования", "PostgreSQL", "Перенесённая история, новые бронирования и outbox")
+  Container(kafka, "Kafka", "Брокер событий", "События BookingCreated")
+  Container(history, "Сервис истории бронирований", "Consumer", "Формирует аналитику, устраняет дубли событий")
+  ContainerDb(historyDb, "БД истории бронирований", "PostgreSQL", "История бронирований и идентификаторы обработанных событий")
+}
+Rel(client, monolith, "Существующий публичный API", "HTTPS / REST")
+Rel(monolith, booking, "Создание, чтение бронирований", "gRPC")
+Rel(booking, monolith, "Пользователь, отель, промокод, доверие по отзывам", "REST")
+Rel(monolith, legacyDb, "Оставшиеся домены", "JDBC")
+Rel(booking, bookingDb, "Бронирование и outbox одной транзакцией", "JDBC")
+Rel(booking, kafka, "Публикует события из outbox с повторениями", "Kafka protocol")
+Rel(kafka, history, "Доставляет BookingCreated", "Kafka protocol")
+Rel(history, historyDb, "История и дедупликация одной транзакцией", "SQL")
+@enduml

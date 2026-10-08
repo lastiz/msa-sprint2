@@ -1,0 +1,43 @@
+build  $ docker build -t ${IMAGE_NAME}:${IMAGE_TAG} booking-service
+build  > #0 building with "desktop-linux" instance using docker driver
+build  > 
+build  > #1 [internal] load build definition from Dockerfile
+build  > #1 transferring dockerfile: 309B done
+build  > #1 DONE 0.0s
+build  > 
+build  > #2 [internal] load metadata for docker.io/library/golang:1.26-alpine
+build  > #2 DONE 0.6s
+build  > 
+build  > #3 [internal] load .dockerignore
+build  > #3 transferring context: 2B done
+build  > #3 DONE 0.0s
+build  > 
+build  > #4 [build 1/4] FROM docker.io/library/golang:1.26-alpine@sha256:8ac98ca534ac3f51e1f420a1dd2c15e74c75cfa0f23f3ad27eb5d7236c349a0c
+build  > #4 resolve docker.io/library/golang:1.26-alpine@sha256:8ac98ca534ac3f51e1f420a1dd2c15e74c75cfa0f23f3ad27eb5d7236c349a0c 0.0s done
+build  > #4 DONE 0.0s
+build  > 
+build  > #5 [internal] load build context
+build  > #5 transferring context: 29B done
+build  > #5 DONE 0.0s
+build  > 
+build  > #6 [build 2/4] WORKDIR /src
+build  > #6 CACHED
+build  > 
+build  > #7 [build 4/4] RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /booking-service main.go
+build  > #7 CACHED
+build  > 
+build  > #8 [build 3/4] COPY main.go .
+build  > #8 CACHED
+build  > 
+build  > #9 [stage-1 1/1] COPY --from=build /booking-service /booking-service
+build  > #9 CACHED
+build  > 
+build  > #10 exporting to image
+build  > #10 exporting layers done
+build  > #10 exporting manifest sha256:0c6bfa9356d751853284caa37650437d44be2ff8f43fc7e8c09c95073a85556f done
+build  > #10 exporting config sha256:e61e336e29bc81ed5e09f5d1adf1ecc37ab4015aa02a704422403b80d0e7d67b done
+build  > #10 exporting attestation manifest sha256:07a4a121c3401bc86f9d952536db9925c567def10e7732cdd7a717c7e743b135 0.0s done
+build  > #10 exporting manifest list sha256:f1c849a8f23e07848b44d934eab5cf86cedd097c278ce5ce43489982303d154f done
+build  > #10 naming to docker.io/library/booking-service:latest done
+build  > #10 unpacking to docker.io/library/booking-service:latest done
+build  > #10 DONE 0.0s

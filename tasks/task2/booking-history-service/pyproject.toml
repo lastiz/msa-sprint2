@@ -1,0 +1,14 @@
+[project]
+name = "booking-history-service"
+version = "0.1.0"
+description = "Kafka consumer for Hotelio booking history"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "asyncpg>=0.32.0",
+    "dishka>=1.10.1",
+    "dishka-faststream>=0.7.0",
+    "faststream[kafka]>=0.7.7",
+    "pydantic>=2.10,<3",
+    "pydantic-settings>=2.7,<3",
+    "sqlalchemy[asyncio]>=2.0,<3",
+]
